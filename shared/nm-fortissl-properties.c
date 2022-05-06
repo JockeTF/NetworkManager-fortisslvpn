@@ -34,6 +34,7 @@ typedef struct {
 
 static const ValidProperty valid_properties[] = {
 	{ NM_FORTISSLVPN_KEY_GATEWAY,           G_TYPE_STRING, TRUE },
+	{ NM_FORTISSLVPN_KEY_COOKIE,            G_TYPE_STRING, FALSE },
 	{ NM_FORTISSLVPN_KEY_USER,              G_TYPE_STRING, FALSE },
 	{ NM_FORTISSLVPN_KEY_CA,                G_TYPE_STRING, FALSE },
 	{ NM_FORTISSLVPN_KEY_TRUSTED_CERT,      G_TYPE_STRING, FALSE },

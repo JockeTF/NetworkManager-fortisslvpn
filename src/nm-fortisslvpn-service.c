@@ -238,6 +238,12 @@ run_openfortivpn (NMFortisslvpnPlugin *plugin, NMSettingVpn *s_vpn, GError **err
 	if (gl.openfortissl_log_level)
 		g_ptr_array_add (argv, (gpointer) g_strdup (gl.openfortissl_log_level));
 
+	value = nm_setting_vpn_get_data_item (s_vpn, NM_FORTISSLVPN_KEY_COOKIE);
+	if (value) {
+		g_ptr_array_add (argv, (gpointer) g_strdup ("--cookie"));
+		g_ptr_array_add (argv, (gpointer) g_strdup (value));
+	}
+
 	value = nm_setting_vpn_get_data_item (s_vpn, NM_FORTISSLVPN_KEY_CA);
 	if (value) {
 		g_ptr_array_add (argv, (gpointer) g_strdup ("--ca-file"));

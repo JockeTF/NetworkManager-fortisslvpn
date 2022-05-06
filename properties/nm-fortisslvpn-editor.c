@@ -235,6 +235,16 @@ init_editor_plugin (FortisslvpnEditor *self, NMConnection *connection, GError **
 	}
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
 
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "cookie_entry"));
+	g_return_val_if_fail (widget, FALSE);
+
+	if (s_vpn) {
+		value = nm_setting_vpn_get_data_item (s_vpn, NM_FORTISSLVPN_KEY_COOKIE);
+		if (value && strlen (value))
+			gtk_editable_set_text (GTK_EDITABLE (widget), value);
+	}
+	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
+
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_entry"));
 	g_return_val_if_fail (widget, FALSE);
 
@@ -399,6 +409,12 @@ update_connection (NMVpnEditor *iface,
 	str = gtk_editable_get_text (GTK_EDITABLE (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_FORTISSLVPN_KEY_GATEWAY, str);
+
+	/* Cookie */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "cookie_entry"));
+	str = gtk_editable_get_text (GTK_EDITABLE (widget));
+	if (str && strlen (str))
+		nm_setting_vpn_add_data_item (s_vpn, NM_FORTISSLVPN_KEY_COOKIE, str);
 
 	/* Username */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_entry"));

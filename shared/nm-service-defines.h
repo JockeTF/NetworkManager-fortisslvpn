@@ -30,6 +30,7 @@
 #define NM_DBUS_PATH_FORTISSLVPN       "/org/freedesktop/NetworkManager/fortisslvpn"
 
 #define NM_FORTISSLVPN_KEY_GATEWAY           "gateway"
+#define NM_FORTISSLVPN_KEY_COOKIE            "cookie"
 #define NM_FORTISSLVPN_KEY_USER              "user"
 #define NM_FORTISSLVPN_KEY_PASSWORD          "password"
 #define NM_FORTISSLVPN_KEY_OTP               "otp"
