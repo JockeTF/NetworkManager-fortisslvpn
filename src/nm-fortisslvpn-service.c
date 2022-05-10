@@ -394,8 +394,10 @@ get_credentials (NMSettingVpn *s_vpn,
                  GError **error)
 {
 	const char *cert;
+	const char *cookie;
 
 	cert = nm_setting_vpn_get_data_item (s_vpn, NM_FORTISSLVPN_KEY_CERT);
+	cookie = nm_setting_vpn_get_data_item (s_vpn, NM_FORTISSLVPN_KEY_COOKIE);
 
 	/* Username; try SSLVPN specific username first, then generic username */
 	*username = nm_setting_vpn_get_data_item (s_vpn, NM_FORTISSLVPN_KEY_USER);
@@ -410,7 +412,7 @@ get_credentials (NMSettingVpn *s_vpn,
 	}
 
 	*password = nm_setting_vpn_get_secret (s_vpn, NM_FORTISSLVPN_KEY_PASSWORD);
-	if (!cert && (!*password || !strlen (*password))) {
+	if (!cert && !cookie && (!*password || !strlen (*password))) {
 		g_set_error_literal (error,
 		                     NM_VPN_PLUGIN_ERROR,
 		                     NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,

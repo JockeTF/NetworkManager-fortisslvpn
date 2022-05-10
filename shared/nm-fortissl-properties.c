@@ -222,21 +222,22 @@ nm_fortisslvpn_properties_validate (NMSettingVpn *s_vpn, GError **error)
 gboolean
 nm_fortisslvpn_properties_validate_secrets (NMSettingVpn *s_vpn, GError **error)
 {
+	const char *cert;
+	const char *cookie;
+
 	ValidateInfo info = { &valid_secrets[0], error, FALSE };
 
-  const char *cert;
-  cert = nm_setting_vpn_get_data_item (s_vpn, NM_FORTISSLVPN_KEY_CERT);
-
+	cert = nm_setting_vpn_get_data_item (s_vpn, NM_FORTISSLVPN_KEY_CERT);
+	cookie = nm_setting_vpn_get_data_item (s_vpn, NM_FORTISSLVPN_KEY_COOKIE);
 	nm_setting_vpn_foreach_secret (s_vpn, validate_one_property, &info);
-	if (!info.have_items) {
-		if (!cert) {
-			g_set_error (error,
-				NM_VPN_PLUGIN_ERROR,
-				NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
-				"%s",
-				_("No VPN secrets!"));
-			return FALSE;
-		}
+
+	if (!cert && !cookie && !info.have_items) {
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
+		             "%s",
+		             _("No VPN secrets!"));
+		return FALSE;
 	}
 
 	return *error ? FALSE : TRUE;
